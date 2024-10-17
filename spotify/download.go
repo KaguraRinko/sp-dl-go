@@ -52,6 +52,13 @@ func (d *Downloader) downloadContent(ID string, content IDType) (err error) {
 	trackNumber := ""
 
 	artist = formatArtistsStr(metadata.Artists)
+	if strings.Contains(artist, "/") {
+		artist = strings.ReplaceAll(artist, "/", `, `)
+	}
+
+	if strings.Contains(artist, "CV:") {
+		artist = strings.ReplaceAll(artist, "CV:", ``)
+	}
 
 	if strings.Contains(metadata.Album.Name, "/") {
 		albumName = strings.ReplaceAll(metadata.Album.Name, "/", `-`)

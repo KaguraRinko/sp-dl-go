@@ -32,7 +32,12 @@ func (d *Downloader) AddMetadata(trackMD trackMetadata, filePath string, realFil
 	metadata["album_artist"] = formatArtistsStr(album.Artists)
 	for _, copyright := range album.Copyrights {
 		if copyright.Type == "P" {
-			metadata["copyright"] = fmt.Sprintf("%s", strings.ReplaceAll(copyright.Text, "(P)", "℗"))
+			println(copyright.Text)
+			if strings.Contains(copyright.Text, "(P)") {
+				metadata["copyright"] = fmt.Sprintf("%s", strings.ReplaceAll(copyright.Text, "(P)", "℗"))
+			} else {
+				metadata["copyright"] = fmt.Sprintf("℗ %s", copyright.Text)
+			}
 			break
 		}
 	}
