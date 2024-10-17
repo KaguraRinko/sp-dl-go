@@ -2,8 +2,8 @@ package spotify
 
 import (
 	"fmt"
-	log "github.com/XiaoMengXinX/sp-dl-go/logger"
-	"github.com/XiaoMengXinX/sp-dl-go/playplay"
+	log "github.com/KaguraRinko/sp-dl-go/logger"
+	"github.com/KaguraRinko/sp-dl-go/playplay"
 	widevine "github.com/iyear/gowidevine"
 	"os"
 	"strings"
@@ -50,6 +50,8 @@ func (d *Downloader) downloadContent(ID string, content IDType) (err error) {
 
 	albumName := metadata.Album.Name
 	trackNumber := ""
+
+	artist = formatArtistsStr(metadata.Artists)
 
 	if strings.Contains(metadata.Album.Name, "/") {
 		albumName = strings.ReplaceAll(metadata.Album.Name, "/", `-`)

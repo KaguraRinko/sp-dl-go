@@ -3,8 +3,8 @@ package spotify
 import (
 	"encoding/json"
 	"fmt"
-	log "github.com/XiaoMengXinX/sp-dl-go/logger"
-	"github.com/XiaoMengXinX/sp-dl-go/token"
+	log "github.com/KaguraRinko/sp-dl-go/logger"
+	"github.com/KaguraRinko/sp-dl-go/token"
 	"net/http"
 )
 

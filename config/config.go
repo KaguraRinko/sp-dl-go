@@ -4,7 +4,7 @@ import (
 	"encoding/json"
 	"errors"
 	"fmt"
-	log "github.com/XiaoMengXinX/sp-dl-go/logger"
+	log "github.com/KaguraRinko/sp-dl-go/logger"
 	"os"
 )
 

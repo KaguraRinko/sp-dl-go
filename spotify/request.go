@@ -3,8 +3,8 @@ package spotify
 import (
 	"bytes"
 	"fmt"
-	"github.com/XiaoMengXinX/sp-dl-go/config"
-	log "github.com/XiaoMengXinX/sp-dl-go/logger"
+	"github.com/KaguraRinko/sp-dl-go/config"
+	log "github.com/KaguraRinko/sp-dl-go/logger"
 	"io"
 	"net/http"
 	"os"

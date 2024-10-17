@@ -2,7 +2,7 @@ package spotify
 
 import (
 	"fmt"
-	log "github.com/XiaoMengXinX/sp-dl-go/logger"
+	log "github.com/KaguraRinko/sp-dl-go/logger"
 	"github.com/bogem/id3v2"
 	"net/http"
 	"os"

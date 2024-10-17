@@ -4,7 +4,7 @@ package spotify.playplay.proto;
 
 option optimize_for = CODE_SIZE;
 option java_package = "com.spotify.playplay";
-option go_package = "github.com/XiaoMengXinX/sp-dl-go/playplay";
+option go_package = "github.com/KaguraRinko/sp-dl-go/playplay";
 
 enum Interactivity {
   UNKNOWN_INTERACTIVITY = 0;

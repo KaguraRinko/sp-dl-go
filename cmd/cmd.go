@@ -3,8 +3,8 @@ package main
 import (
 	"flag"
 	"fmt"
-	log "github.com/XiaoMengXinX/sp-dl-go/logger"
-	"github.com/XiaoMengXinX/sp-dl-go/spotify"
+	log "github.com/KaguraRinko/sp-dl-go/logger"
+	"github.com/KaguraRinko/sp-dl-go/spotify"
 	"os"
 )
 

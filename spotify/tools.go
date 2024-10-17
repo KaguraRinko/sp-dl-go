@@ -3,7 +3,7 @@ package spotify
 import (
 	"encoding/hex"
 	"fmt"
-	log "github.com/XiaoMengXinX/sp-dl-go/logger"
+	log "github.com/KaguraRinko/sp-dl-go/logger"
 	"math/big"
 	"net/url"
 	"os"
