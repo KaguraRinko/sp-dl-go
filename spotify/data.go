@@ -74,7 +74,8 @@ type trackMetadata struct {
 	GID   string `json:"gid"`
 	Name  string `json:"name"`
 	Album struct {
-		Name       string `json:"name"`
+		Name       string            `json:"name"`
+		Artist     []artistDataBasic ` json:"artist"`
 		CoverGroup struct {
 			Image []struct {
 				FileId string `json:"file_id"`

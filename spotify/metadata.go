@@ -27,6 +27,7 @@ func (d *Downloader) AddMetadata(trackMD trackMetadata, filePath string, realFil
 	metadata := make(map[string]string)
 	metadata["title"] = trackMD.Name
 	metadata["artist"] = formatArtistsStr(trackMD.Artists)
+	metadata["album_artist"] = formatArtistsStr(trackMD.Album.Artist)
 	metadata["album"] = trackMD.Album.Name
 	metadata["date"] = album.ReleaseDate
 	metadata["album_artist"] = formatArtistsStr(album.Artists)
