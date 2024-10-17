@@ -6,6 +6,7 @@ import (
 	"github.com/bogem/id3v2"
 	"net/http"
 	"os"
+	"strings"
 )
 
 func (d *Downloader) AddMetadata(trackMD trackMetadata, filePath string) (err error) {
@@ -31,7 +32,7 @@ func (d *Downloader) AddMetadata(trackMD trackMetadata, filePath string) (err er
 	metadata["album_artist"] = formatArtistsStr(album.Artists)
 	for _, copyright := range album.Copyrights {
 		if copyright.Type == "P" {
-			metadata["copyright"] = fmt.Sprintf("℗ %s", copyright.Text)
+			metadata["copyright"] = fmt.Sprintf("%s", strings.Replace(copyright.Text, "(P)", "℗", 1))
 			break
 		}
 	}
