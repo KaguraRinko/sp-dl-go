@@ -6,7 +6,7 @@ import (
 	"sort"
 )
 
-func (d *Downloader) downloadCoverImage(metadata trackMetadata) (fileName string, err error) {
+func (d *Downloader) downloadCoverImage(metadata trackMetadata, filePath string) (fileName string, err error) {
 	fileId, err := getLargestCover(metadata)
 	if err != nil {
 		return fileName, fmt.Errorf("failed to get cover: %v", err)
@@ -15,7 +15,7 @@ func (d *Downloader) downloadCoverImage(metadata trackMetadata) (fileName string
 	url := fmt.Sprintf("https://i.scdn.co/image/%s", fileId)
 	fileName = fmt.Sprintf("%s.jpg", fileId)
 
-	if err = d.downloadURL(url, fileName); err != nil {
+	if err = d.downloadURL(url, fileName, filePath); err != nil {
 		return
 	}
 	return

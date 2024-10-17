@@ -9,7 +9,7 @@ import (
 	"strings"
 )
 
-func (d *Downloader) AddMetadata(trackMD trackMetadata, filePath string) (err error) {
+func (d *Downloader) AddMetadata(trackMD trackMetadata, filePath string, realFilePath string) (err error) {
 	trackID := SpHexToID(trackMD.GID)
 	log.Debugf("trackID: %s", trackMD.GID)
 	log.Debugf("ID: %s", SpHexToID(trackMD.GID))
@@ -32,7 +32,7 @@ func (d *Downloader) AddMetadata(trackMD trackMetadata, filePath string) (err er
 	metadata["album_artist"] = formatArtistsStr(album.Artists)
 	for _, copyright := range album.Copyrights {
 		if copyright.Type == "P" {
-			metadata["copyright"] = fmt.Sprintf("%s", strings.Replace(copyright.Text, "(P)", "℗", 1))
+			metadata["copyright"] = fmt.Sprintf("%s", strings.ReplaceAll(copyright.Text, "(P)", "℗"))
 			break
 		}
 	}
@@ -56,8 +56,8 @@ func (d *Downloader) AddMetadata(trackMD trackMetadata, filePath string) (err er
 
 	log.Debugf("Serialized metadata: %+v", metadata)
 
-	coverFileName, err := d.downloadCoverImage(trackMD)
-	coverFilePath := fmt.Sprintf("%s/%s", d.OutputFolder, coverFileName)
+	coverFileName, err := d.downloadCoverImage(trackMD, realFilePath)
+	coverFilePath := fmt.Sprintf("%s/%s", realFilePath, coverFileName)
 	defer os.Remove(coverFilePath)
 
 	if err != nil {

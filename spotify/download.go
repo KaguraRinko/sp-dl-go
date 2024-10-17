@@ -6,6 +6,7 @@ import (
 	"github.com/XiaoMengXinX/sp-dl-go/playplay"
 	widevine "github.com/iyear/gowidevine"
 	"os"
+	"strings"
 )
 
 func (d *Downloader) downloadContent(ID string, content IDType) (err error) {
@@ -44,12 +45,19 @@ func (d *Downloader) downloadContent(ID string, content IDType) (err error) {
 		format = "ogg"
 	}
 
-	fileName := cleanFilename(fmt.Sprintf("%s - %s", name, artist))
-	outFilePath := fmt.Sprintf("%s/%s.%s", d.OutputFolder, fileName, format)
+	albumName := metadata.Album.Name
 
+	if strings.Contains(metadata.Album.Name, "/") {
+		albumName = strings.ReplaceAll(metadata.Album.Name, "/", `-`)
+	}
+
+	fileName := cleanFilename(fmt.Sprintf("%s - %s", name, artist))
+	outFilePath := fmt.Sprintf("%s/%s/%s/%s.%s", d.OutputFolder, artist, albumName, fileName, format)
+	realOutFilePath := fmt.Sprintf("%s/%s/%s", d.OutputFolder, artist, albumName)
+	log.Infof(realOutFilePath)
 	log.Infof("Downloading %s [%s]", content, fileName)
 
-	err = d.downloadAndDecrypt(fileName, format, fileID)
+	err = d.downloadAndDecrypt(fileName, format, fileID, artist, metadata.Album.Name)
 	if err != nil {
 		return err
 	}
@@ -62,7 +70,7 @@ func (d *Downloader) downloadContent(ID string, content IDType) (err error) {
 
 	if hasFFmpeg {
 		if d.isConvertToMP3 {
-			mp3FilePath := fmt.Sprintf("%s/%s.mp3", d.OutputFolder, fileName)
+			mp3FilePath := fmt.Sprintf("%s/%s/%s/%s.mp3", d.OutputFolder, artist, strings.ReplaceAll(metadata.Album.Name, "/", `-`), fileName)
 			err = d.convertMp3(outFilePath, mp3FilePath)
 			if err != nil {
 				return err
@@ -73,7 +81,7 @@ func (d *Downloader) downloadContent(ID string, content IDType) (err error) {
 		}
 
 		if !d.skipAddingMetadata && (d.isConvertToMP3 || format == "m4a") && content == TRACK {
-			err = d.AddMetadata(metadata, outFilePath)
+			err = d.AddMetadata(metadata, outFilePath, realOutFilePath)
 			if err != nil {
 				return err
 			}
@@ -91,10 +99,11 @@ func (d *Downloader) downloadContent(ID string, content IDType) (err error) {
 	return nil
 }
 
-func (d *Downloader) downloadAndDecrypt(fileName string, format string, fileID string) (err error) {
+func (d *Downloader) downloadAndDecrypt(fileName string, format string, fileID string, artist string, albumName string) (err error) {
 	tmpFileName := fmt.Sprintf("%s.%s.tmp", fileName, format)
-	tmpFilePath := fmt.Sprintf("%s/%s", d.OutputFolder, tmpFileName)
-	outFilePath := fmt.Sprintf("%s/%s.%s", d.OutputFolder, fileName, format)
+	tmpFilePath := fmt.Sprintf("%s/%s/%s/%s", d.OutputFolder, artist, strings.ReplaceAll(albumName, "/", `-`), tmpFileName)
+	downloadFilePath := fmt.Sprintf("%s/%s/%s", d.OutputFolder, artist, strings.ReplaceAll(albumName, "/", `-`))
+	outFilePath := fmt.Sprintf("%s/%s/%s/%s.%s", d.OutputFolder, artist, strings.ReplaceAll(albumName, "/", `-`), fileName, format)
 
 	defer func(filename string, filePath string, err *error) {
 		if *err != nil {
@@ -108,7 +117,7 @@ func (d *Downloader) downloadAndDecrypt(fileName string, format string, fileID s
 		return err
 	}
 
-	err = d.downloadURL(cdnURL, tmpFileName)
+	err = d.downloadURL(cdnURL, tmpFileName, downloadFilePath)
 	defer os.Remove(tmpFilePath)
 	if err != nil {
 		return err

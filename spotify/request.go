@@ -44,7 +44,7 @@ func (d *Downloader) makeRequest(method, url string, body []byte) ([]byte, error
 	return io.ReadAll(resp.Body)
 }
 
-func (d *Downloader) downloadURL(url, filename string) error {
+func (d *Downloader) downloadURL(url, filename string, filePath string) error {
 	req, err := http.NewRequest("GET", url, nil)
 	if err != nil {
 		return fmt.Errorf("failed to create request: %v", err)
@@ -68,11 +68,11 @@ func (d *Downloader) downloadURL(url, filename string) error {
 		return fmt.Errorf("download failed with http code: %d", resp.StatusCode)
 	}
 
-	if err := os.MkdirAll(d.OutputFolder, os.ModePerm); err != nil {
+	if err := os.MkdirAll(filePath, os.ModePerm); err != nil {
 		return fmt.Errorf("failed to create directory: %v", err)
 	}
 
-	file, err := os.Create(filepath.Join(d.OutputFolder, filename))
+	file, err := os.Create(filepath.Join(filePath, filename))
 	if err != nil {
 		return fmt.Errorf("failed to create file: %v", err)
 	}
