@@ -18,6 +18,7 @@ type Data struct {
 	SpDc              string `json:"sp_dc"`
 	AccessToken       string `json:"accessToken"`
 	AccessTokenExpire int64  `json:"accessTokenExpire"`
+	MetadataLanguage  string `json:"metadataLanguage"`
 }
 
 type Manager struct {
@@ -31,6 +32,7 @@ func NewConfigManager() *Manager {
 		SpDc:              "",
 		AccessToken:       "",
 		AccessTokenExpire: -1,
+		MetadataLanguage:  "zh-CN,zh;q=0.9,zh-HK;q=0.8,zh-TW;q=0.7, ja-JP;q=0.6,en-US;q=0.5,en;q=0.4",
 	}
 	return &Manager{
 		configFileName: "config.json",

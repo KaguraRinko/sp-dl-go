@@ -3,6 +3,7 @@ package spotify
 import (
 	"bytes"
 	"fmt"
+	"github.com/XiaoMengXinX/sp-dl-go/config"
 	log "github.com/XiaoMengXinX/sp-dl-go/logger"
 	"io"
 	"net/http"
@@ -24,6 +25,7 @@ func (d *Downloader) makeRequest(method, url string, body []byte) ([]byte, error
 	}
 	req.Header.Set("Authorization", "Bearer "+accessToken)
 	req.Header.Set("User-Agent", "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/129.0.0.0 Safari/537.36")
+	req.Header.Set("Accept-Language", config.NewConfigManager().Get().MetadataLanguage)
 	req.Header.Set("Accept", "application/json")
 
 	log.Debugf("[%s] %s", method, url)
