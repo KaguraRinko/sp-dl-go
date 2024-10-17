@@ -45,16 +45,25 @@ func (d *Downloader) downloadContent(ID string, content IDType) (err error) {
 		format = "ogg"
 	}
 
+	trackID := SpHexToID(metadata.GID)
+	track, err := d.getTrackAPI(trackID)
+
 	albumName := metadata.Album.Name
+	trackNumber := ""
 
 	if strings.Contains(metadata.Album.Name, "/") {
 		albumName = strings.ReplaceAll(metadata.Album.Name, "/", `-`)
 	}
 
-	fileName := cleanFilename(fmt.Sprintf("%s - %s", name, artist))
+	if track.TrackNumber < 10 {
+		trackNumber = fmt.Sprintf("0%d", track.TrackNumber)
+	} else {
+		trackNumber = fmt.Sprintf("%d", track.TrackNumber)
+	}
+
+	fileName := cleanFilename(fmt.Sprintf("%s. %s", trackNumber, name))
 	outFilePath := fmt.Sprintf("%s/%s/%s/%s.%s", d.OutputFolder, artist, albumName, fileName, format)
 	realOutFilePath := fmt.Sprintf("%s/%s/%s", d.OutputFolder, artist, albumName)
-	log.Infof(realOutFilePath)
 	log.Infof("Downloading %s [%s]", content, fileName)
 
 	err = d.downloadAndDecrypt(fileName, format, fileID, artist, metadata.Album.Name)
